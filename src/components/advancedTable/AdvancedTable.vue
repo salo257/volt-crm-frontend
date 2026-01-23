@@ -26,7 +26,7 @@
             @clear-filters="clearFilters"
           />
           <!-- Export Buttons -->
-          <div class="export-buttons d-flex gap-2">
+          <!-- <div class="export-buttons d-flex gap-2">
             <button
               class="btn btn-outline-danger btn-sm d-flex align-items-center gap-2"
               @click="$emit('export', { type: 'pdf' })"
@@ -43,7 +43,7 @@
               <i class="fas fa-file-excel"></i>
               <span class="d-none d-lg-inline">Excel</span>
             </button>
-          </div>
+          </div> -->
           <div class="per-page-select">
             <span class="text-muted small me-2">Afficher</span>
             <select
