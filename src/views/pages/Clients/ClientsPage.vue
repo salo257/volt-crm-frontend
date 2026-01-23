@@ -330,7 +330,7 @@ const columns = [
   { key: "nif", label: "NIF" },
   { key: "address", label: "Adresse" },
   { key: "situation", label: "Statut" },
-  { key: "attribut_personne", label: "Attribut Personne" },
+  // { key: "attribut_personne", label: "Attribut Personne" },
   { key: "type", label: "Type" },
   { key: "created_at", label: "Créé le", format: "date" },
 ];

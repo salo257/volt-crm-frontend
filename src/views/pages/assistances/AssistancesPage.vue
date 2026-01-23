@@ -61,29 +61,40 @@
       <div v-else>
         <!-- Client select: bind client_id directly and use optionValue="id" -->
         <div class="mb-4">
-          <label for="assigned_to">Clients</label>
-          <Select
+          <label for="client_id">Clients</label>
+          <select
             v-model="form.client_id"
-            :options="clientsToDisplay"
-            filter
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Choisir un client"
-            class="d-flex items-center w-full md:w-56 mb-3"
-          />
+            id="client_id"
+            class="form-select"
+            required
+          >
+            <option value="" disabled>Choisir un client</option>
+            <option
+              v-for="option in clientsToDisplay"
+              :key="option.id"
+              :value="option.id"
+            >
+              {{ option.name }}
+            </option>
+          </select>
         </div>
 
         <div class="mb-4">
           <label for="assigned_to">Assigné à</label>
-          <Select
+          <select
             v-model="form.assigned_to"
-            :options="usersSupportToDisplay"
-            filter
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Choisir un agent de support"
-            class="d-flex items-center w-full md:w-56 mb-3"
-          />
+            id="assigned_to"
+            class="form-select"
+          >
+            <option value="" disabled>Choisir un agent de support</option>
+            <option
+              v-for="option in usersSupportToDisplay"
+              :key="option.id"
+              :value="option.id"
+            >
+              {{ option.name }}
+            </option>
+          </select>
         </div>
 
         <div class="mb-4">
@@ -141,6 +152,8 @@
       @edit="editAssistance"
       @delete="deleteAssistance"
       @show="viewAssistance"
+      @close-ticket="closeTicket"
+      :has-close="true"
     />
   </div>
 </template>
@@ -250,6 +263,27 @@ const deleteAssistance = async (item) => {
     getData();
   } catch (error) {
     toast.error("Erreur suppression");
+  }
+};
+
+const closeTicket = async (item) => {
+  if (
+    !confirm(
+      "Voulez-vous clôturer ce ticket ? Une facture sera générée automatiquement.",
+    )
+  )
+    return;
+  try {
+    await api.put(`/support-tickets/${item.id}`, {
+      ...item,
+      status: "closed",
+      client_id: item.client_id ?? item.client?.id ?? null,
+      assigned_to: item.assigned_to.id ?? null,
+    });
+    toast.success("Ticket clôturé et facture générée");
+    getData();
+  } catch (error) {
+    toast.error("Erreur lors de la clôture");
   }
 };
 

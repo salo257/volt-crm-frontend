@@ -49,11 +49,11 @@
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Début</label>
-            <p>{{ form.start_date }}</p>
+            <p>{{ new Date(form.start_date).toLocaleDateString() }}</p>
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Fin</label>
-            <p>{{ form.end_date }}</p>
+            <p>{{ new Date(form.end_date).toLocaleDateString() }}</p>
           </div>
         </div>
       </div>
@@ -315,7 +315,7 @@ const columns = [
   { key: "description", label: "Description", format: "long" },
   { key: "start_date", label: "Début", format: "date" },
   { key: "end_date", label: "Fin", format: "date" },
-  { key: "budget", label: "Budget", format: "currency" },
+  // { key: "budget", label: "Budget", format: "currency" },
   { key: "status", label: "Statut" },
   { key: "created_at", label: "Créé le", format: "date" },
 ];

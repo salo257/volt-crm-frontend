@@ -9,6 +9,7 @@ import UsersPage from '../views/pages/users/UsersPage.vue';
 import ClientsPage from '../views/pages/Clients/ClientsPage.vue'
 import InvoicesPage from '@/views/pages/invoices/InvoicesPage.vue'
 import AssistancesPage from '@/views/pages/assistances/AssistancesPage.vue'
+import AssistanceAssignment from '@/views/pages/assistances/AssistanceAssignment.vue'
 import MarketingPage from '@/views/pages/marketing/MarketingPage.vue'
 import CommunicationPage from '@/views/pages/Communication/CommunicationPage.vue'
 import Register from '@/views/auth/Register.vue'
@@ -85,6 +86,16 @@ const routes = [
       roles: ['admin', 'support', 'marketing', 'finance']
 
      }
+  },
+  {
+    path: '/assistances/assign',
+    name: 'AssistanceAssignment',
+    component: AssistanceAssignment,
+    meta: { 
+      requiresAuth: true,
+      roles: ['admin'],
+      title: 'Assignation des Assistances'
+    }
   },
    {
     path: '/communication',

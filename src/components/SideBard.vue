@@ -1,7 +1,7 @@
 <template>
   <aside class="sidebar">
     <div class="sidebar-header">
-      <div class="logo-container">
+      <!-- <div class="logo-container">
         <div class="logo-box">
           <span class="logo-v">V</span>
         </div>
@@ -9,7 +9,7 @@
           <span class="logo-main text-white">VOLT</span>
           <span class="logo-sub">BEST SOLUTIONS</span>
         </div>
-      </div>
+      </div> -->
       <button class="toggle-btn" @click="ui.toggleSidebar">
         <i
           :class="
@@ -90,6 +90,12 @@ const sidebarLinks = [
     roles: ["admin", "support", "finance"],
   },
   {
+    to: "/assistances/assign",
+    icon: "fas fa-user-tag",
+    text: "Assignations",
+    roles: ["admin"],
+  },
+  {
     to: "/marketing",
     icon: "fas fa-bullhorn",
     text: "Marketing",
@@ -113,7 +119,7 @@ const visibleLinks = computed(() =>
   sidebarLinks.filter((l) => {
     if (!l.roles || !l.roles.length) return true;
     return auth.hasAnyRole ? auth.hasAnyRole(l.roles) : true;
-  })
+  }),
 );
 </script>
 

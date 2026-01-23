@@ -55,27 +55,33 @@
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Émise le</label>
-            <p>{{ form.issued_date }}</p>
+            <p>{{ new Date(form.issued_date).toLocaleDateString() }}</p>
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Échéance</label>
-            <p>{{ form.due_date }}</p>
+            <p>{{ new Date(form.due_date).toLocaleDateString() }}</p>
           </div>
         </div>
       </div>
       <div v-else>
-        <!-- Client select: bind client_id directly and use optionValue="id" -->
+        <!-- Client select: Using standard HTML select -->
         <div class="mb-4">
-          <label>Client</label>
-          <Select
+          <label for="client_id">Client</label>
+          <select
             v-model="form.client_id"
-            :options="clientsToDisplay"
-            filter
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Sélectionnez un client"
-            class="w-full"
-          />
+            id="client_id"
+            class="form-select"
+            :class="{ 'is-invalid': errors.client_id }"
+          >
+            <option :value="null" disabled>Sélectionnez un client</option>
+            <option
+              v-for="client in clientsToDisplay"
+              :key="client.id"
+              :value="client.id"
+            >
+              {{ client.name }}
+            </option>
+          </select>
           <div v-if="errors.client_id" class="text-danger small">
             {{ errors.client_id }}
           </div>
@@ -110,7 +116,7 @@
         <div class="row">
           <div class="col-md-6 mb-4">
             <label for="status">Statut</label>
-            <select v-model="form.status" class="form-select">
+            <select v-model="form.status" class="form-select" id="status">
               <option value="draft">draft</option>
               <option value="paid">paid</option>
               <option value="cancelled">cancelled</option>
@@ -123,6 +129,7 @@
               type="number"
               step="0.01"
               class="form-control"
+              id="total_amount"
             />
           </div>
         </div>
@@ -134,11 +141,17 @@
               v-model="form.issued_date"
               type="date"
               class="form-control"
+              id="issued_date"
             />
           </div>
           <div class="col-md-6 mb-4">
             <label for="due_date">Date d'échéance</label>
-            <input v-model="form.due_date" type="date" class="form-control" />
+            <input
+              v-model="form.due_date"
+              type="date"
+              class="form-control"
+              id="due_date"
+            />
           </div>
         </div>
       </div>
@@ -168,8 +181,7 @@ import { useStore } from "vuex";
 import AdvancedTable from "../../../components/advancedTable/AdvancedTable.vue";
 import GlobalModal from "../../../components/advancedTable/GlobalModal.vue";
 import PageHeader from "@/components/common/PageHeader.vue";
-import Select from "primevue/select";
-import { useToast } from "primevue";
+
 import useAuthStore from "@/stores/auth";
 
 const auth = useAuthStore();
@@ -357,7 +369,7 @@ const clientsToDisplay = computed(() => {
   if (!Array.isArray(list)) return [];
 
   return list.map((client) => ({
-    id: client.id, // keep as number
+    id: client.id,
     name:
       `${(client.first_name || "").trim()} ${(
         client.last_name || ""

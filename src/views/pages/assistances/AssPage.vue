@@ -20,76 +20,35 @@
   >
     <!-- Client select: bind client_id directly and use optionValue="id" -->
     <div class="mb-4">
-      <label for="Client">Client</label>
-      <Select
+      <label for="client_id">Client</label>
+      <select
         v-model="form.client_id"
-        :options="clientsToDisplay"
-        filter
-        optionLabel="name"
-        optionValue="id"
-        placeholder="Select a Client"
-        class="d-flex items-center w-full md:w-56 mb-3"
+        id="client_id"
+        class="form-select"
+        required
       >
-        <template #value="slotProps">
-          <div v-if="slotProps.value" class="flex items-center">
-            <div>
-              {{
-                // slotProps.value is the id (number or string) because optionValue="id"
-                // convert to Number to avoid type mismatch when searching the options list
-                (
-                  clientsToDisplay.find(
-                    (c) => c.id === Number(slotProps.value)
-                  ) || { name: slotProps.value }
-                ).name
-              }}
-            </div>
-          </div>
-          <span v-else>
-            {{ slotProps.placeholder }}
-          </span>
-        </template>
-        <template #option="slotProps">
-          <div class="flex items-center">
-            <div>{{ slotProps.option.name }}</div>
-          </div>
-        </template>
-      </Select>
+        <option value="" disabled>Choisir un client</option>
+        <option
+          v-for="option in clientsToDisplay"
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ option.name }}
+        </option>
+      </select>
     </div>
     <div class="mb-4">
-      <label for="assigned_to">Fait par</label>
-      <Select
-        v-model="form.user_id"
-        :options="usersSupportToDisplay"
-        filter
-        optionLabel="name"
-        optionValue="id"
-        placeholder="Choisir un agent de support"
-        class="d-flex items-center w-full md:w-56 mb-3"
-      >
-        <template #value="slotProps">
-          <div v-if="slotProps.value" class="flex items-center">
-            <div>
-              {{
-                // slotProps.value is the id (number or string) because optionValue="id"
-                // convert to Number to avoid type mismatch when searching the options list
-                (
-                  usersSupportToDisplay.find(
-                    (c) => c.id === Number(slotProps.value)
-                  ) || { name: slotProps.value }
-                ).name
-              }}
-            </div>
-          </div>
-          <span v-else>
-            {{ slotProps.placeholder }}
-          </span>
-        </template>
-        <template #option="slotProps">
-          <div class="flex items-center">
-            <div>{{ slotProps.option.name }}</div>
-          </div>
-        </template>
-      </Select>
+      <label for="user_id">Fait par</label>
+      <select v-model="form.user_id" id="user_id" class="form-select">
+        <option value="" disabled>Choisir un agent</option>
+        <option
+          v-for="option in usersSupportToDisplay"
+          :key="option.id"
+          :value="option.id"
+        >
+          {{ option.name }}
+        </option>
+      </select>
     </div>
 
     <div class="mb-4">
@@ -148,7 +107,6 @@ import api from "../../../services/api";
 import { useStore } from "vuex";
 import AdvancedTable from "../../../components/advancedTable/AdvancedTable.vue";
 import GlobalModal from "../../../components/advancedTable/GlobalModal.vue";
-import Select from "primevue/select";
 import { useToast } from "primevue";
 
 const store = useStore();

@@ -173,6 +173,14 @@
                     <i class="fas fa-pen"></i>
                   </button>
                   <button
+                    v-if="hasClose && item.status !== 'closed'"
+                    class="btn-action close-ticket"
+                    @click="$emit('close-ticket', item)"
+                    title="Terminer"
+                  >
+                    <i class="fas fa-check-circle"></i>
+                  </button>
+                  <button
                     v-if="hasDelete"
                     class="btn-action delete"
                     @click="deleteItem(item)"
@@ -235,6 +243,7 @@ const props = defineProps({
   hasDelete: { type: Boolean, default: true },
   hasShow: { type: Boolean, default: true },
   hasEdit: { type: Boolean, default: true },
+  hasClose: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -246,6 +255,7 @@ const emit = defineEmits([
   "filter",
   "page-change",
   "per-page-change",
+  "close-ticket",
 ]);
 
 const searchQuery = ref("");
@@ -255,7 +265,7 @@ const itemsPerPage = ref(props.data.per_page || 10);
 const activeFilters = ref({});
 
 const filterableColumns = computed(() =>
-  props.columns.filter((col) => col.filterable !== false)
+  props.columns.filter((col) => col.filterable !== false),
 );
 const tableData = computed(() => props.data.data || []);
 const paginationData = computed(() => (props.data ? { ...props.data } : null));
@@ -333,7 +343,7 @@ watch(
   () => props.data.per_page,
   (val) => {
     if (val) itemsPerPage.value = val;
-  }
+  },
 );
 </script>
 
@@ -488,6 +498,10 @@ watch(
 .btn-action.delete:hover {
   background: #fee2e2;
   color: #ef4444;
+}
+.btn-action.close-ticket:hover {
+  background: #dcfce7;
+  color: #15803d;
 }
 
 /* Skeleton */

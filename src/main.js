@@ -9,8 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import PrimeVue from 'primevue/config';
 import Toast from 'primevue/toast';
-import Select from 'primevue/select';
-import MultiSelect from 'primevue/multiselect';
+
 import ToastService from 'primevue/toastservice';
 import Lara from '@primeuix/themes/lara';
 import Aura from '@primeuix/themes/aura'; 
@@ -39,6 +38,4 @@ createApp(App)
     .use(ToastService)
     .component('Toast', Toast)
     // .component('v-select', vSelect)
-    .component('Select', Select)
-    .component('MultiSelect', MultiSelect)
     .mount('#app')

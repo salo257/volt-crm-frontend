@@ -5,7 +5,7 @@
       title="Communications"
       subtitle="Historique et planification de vos échanges avec les clients."
       add-label="Nouvelle Communication"
-      @add="addInvoice"
+      @add="addCommunication"
     />
 
     <GlobalModal
@@ -55,39 +55,46 @@
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Date Communication</label>
-            <p>{{ form.date_communication }}</p>
+            <p>{{ new Date(form.date_communication).toLocaleDateString() }}</p>
           </div>
           <div class="col-6">
             <label class="small text-muted mb-1">Échéance</label>
-            <p>{{ form.due_date }}</p>
+            <p>{{ new Date(form.due_date).toLocaleDateString() }}</p>
           </div>
         </div>
       </div>
       <div v-else>
         <!-- Client select: bind client_id directly and use optionValue="id" -->
         <div class="mb-4">
-          <label for="Client">Client</label>
-          <Select
+          <label for="client_id">Client</label>
+          <select
             v-model="form.client_id"
-            :options="clientsToDisplay"
-            filter
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Select a Client"
-            class="d-flex items-center w-full md:w-56 mb-3"
-          />
+            id="client_id"
+            class="form-select"
+            required
+          >
+            <option value="" disabled>Choisir un client</option>
+            <option
+              v-for="option in clientsToDisplay"
+              :key="option.id"
+              :value="option.id"
+            >
+              {{ option.name }}
+            </option>
+          </select>
         </div>
         <div class="mb-4">
-          <label for="assigned_to">Fait par</label>
-          <Select
-            v-model="form.user_id"
-            :options="usersSupportToDisplay"
-            filter
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Choisir un agent de support"
-            class="d-flex items-center w-full md:w-56 mb-3"
-          />
+          <label for="user_id">Fait par</label>
+          <select v-model="form.user_id" id="user_id" class="form-select">
+            <option value="" disabled>Choisir un agent</option>
+            <option
+              v-for="option in usersSupportToDisplay"
+              :key="option.id"
+              :value="option.id"
+            >
+              {{ option.name }}
+            </option>
+          </select>
         </div>
 
         <div class="mb-4">
@@ -167,7 +174,6 @@ import { useStore } from "vuex";
 import AdvancedTable from "../../../components/advancedTable/AdvancedTable.vue";
 import GlobalModal from "../../../components/advancedTable/GlobalModal.vue";
 import PageHeader from "@/components/common/PageHeader.vue";
-import Select from "primevue/select";
 import { useToast } from "primevue";
 
 const store = useStore();
