@@ -217,7 +217,7 @@ const dashboard = computed(() => store.state.data.dashboard ?? {});
 const formatMoney = (amount) => {
   return new Intl.NumberFormat("fr-FR", {
     style: "currency",
-    currency: "EUR",
+    currency: "Fbu",
   }).format(Number(amount) || 0);
 };
 
